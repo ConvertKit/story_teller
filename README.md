@@ -8,7 +8,7 @@ Log request params, or conditions paths with `StoryTeller.tell` and wrap everyth
 There are 3 classes that build most of StoryTeller's logic and features: `StoryTeller::Book`, `StoryTeller::Chapter` and `StoryTeller::Story`. These are internal objects and you shouldn't need to be exposed to those but it's still worthwhile to understand how things work under the hood.
 
 ### Book
-A book is an object that is created lazily as soon as an call is made to `StoryTeller.tell` or `StoryTeller.chapter`. Even though these 2 are class methods, StoryTeller is thread safe because it always refers to a book for the current thread. If a thread doesn't have a book, it will create one.
+A book is an object that is created lazily as soon as a call is made to `StoryTeller.tell` or `StoryTeller.chapter`. Even though these 2 are class methods, StoryTeller is thread safe because it always refers to a book for the current thread. If a thread doesn't have a book, it will create one.
 
 Each book has its own `UUID` that is going to be used by all stories and chapters so you can filter logs by request/jobs. That is particularly useful when you see something weird in the log and you want to follow step by step all the logs for a request.
 
