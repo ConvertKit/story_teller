@@ -5,7 +5,7 @@ Create indexable and searchable logs by using the two methods that StoryTeller u
 Log request params, or conditions paths with `StoryTeller.tell` and wrap everything inside a `StoryTeller.chapter` at the controller level and you will be able to follow a request down to figure out exactly what happened and why things happened in the way that they did.
 
 ## Core Concepts
-There is 3 classes that build most of StoryTeller's logic and features: `StoryTeller::Book`, `StoryTeller::Chapter` and `StoryTeller::Story`. These are internal objects and you shouldn't need to be exposed to those but it's still worthwhile to understand how things work under the hood.
+There are 3 classes that build most of StoryTeller's logic and features: `StoryTeller::Book`, `StoryTeller::Chapter` and `StoryTeller::Story`. These are internal objects and you shouldn't need to be exposed to those but it's still worthwhile to understand how things work under the hood.
 
 ### Book
 A book is an object that is created lazily as soon as an call is made to `StoryTeller.tell` or `StoryTeller.chapter`. Even though these 2 are class methods, StoryTeller is thread safe because it always refers to a book for the current thread. If a thread doesn't have a book, it will create one.
