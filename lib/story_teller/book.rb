@@ -4,9 +4,10 @@ class StoryTeller::Book
 
   attr_reader :chapters, :dispatcher
 
-  def initialize(dispatcher:, uuid: nil)
+  def initialize(dispatcher:, uuid: nil, tracer: nil)
     @dispatcher = dispatcher
     @uuid = uuid
+    @tracer = tracer
     @chapters = []
   end
 
@@ -14,19 +15,12 @@ class StoryTeller::Book
     @chapters.empty?
   end
 
-  def chapter(title:, subtitle: nil)
-    chapter = start!(title, subtitle)
-
-    begin
-      returned_value = nil
-      returned_value = yield(chapter) if block_given?
-    rescue StandardError => error
-      tell(StoryTeller::Error.new(error))
-      raise error
-    ensure
-      finish!
-      returned_value
-    end
+  def chapter(title:, subtitle: nil, &block)
+    chapter = start!(title, subtitle, @tracer)
+    value = chapter.run!(&block)
+  ensure
+    finish!
+    return value
   end
 
   def tell(story = {})
@@ -55,8 +49,8 @@ class StoryTeller::Book
 
   private
 
-  def start!(title, subtitle)
-    chapter = StoryTeller::Chapter.new(title: title, subtitle: subtitle)
+  def start!(title, subtitle, tracer)
+    chapter = StoryTeller::Chapter.new(title: title, subtitle: subtitle, tracer: tracer)
 
     chapter.merge(current_chapter.to_hash)
 

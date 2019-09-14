@@ -1,6 +1,10 @@
 class StoryTeller::Story
-  INFO_LEVEL = 3
-  ERROR_LEVEL = 4
+  SYSTEM_LEVEL  = 0
+  TIMING_LEVEL  = 1
+  TRACE_LEVEL   = 2
+  LOG_LEVEL     = 3
+  ERROR_LEVEL   = 4
+
 
   class StoryAttributeMissingError < StandardError; end
 
@@ -18,7 +22,7 @@ class StoryTeller::Story
       raise StoryAttributeMissingError, "Invalid story. Requires a message"
     end
 
-    @severity = INFO_LEVEL
+    @severity = LOG_LEVEL
     @timestamp = Time.now.utc
   end
 

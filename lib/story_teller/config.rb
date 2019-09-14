@@ -9,6 +9,7 @@ class StoryTeller::Config
     def configure!(config = {})
       SEMAPHORE.synchronize do
         @logger = config.fetch(:logger, Logger.new(STDERR))
+        @tracer = config.fetch(:tracer, StoryTeller::Tracer)
 
         @dispatcher = {}
 
@@ -23,25 +24,25 @@ class StoryTeller::Config
     end
 
     def configured?
-      SEMAPHORE.synchronize do
-        @configured
-      end
+      @configured
     end
 
     def logger
       configure! unless configured?
 
-      SEMAPHORE.synchronize do
-        @logger
-      end
+      @logger
     end
 
     def dispatcher
       configure! unless configured?
 
-      SEMAPHORE.synchronize do
-        @dispatcher
-      end
+      @dispatcher
+    end
+
+    def tracer
+      configure! unless configured?
+
+      @tracer
     end
   end
 end

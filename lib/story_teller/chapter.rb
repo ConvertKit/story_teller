@@ -1,10 +1,27 @@
 class StoryTeller::Chapter
   attr_reader :title, :subtitle
 
-  def initialize(title:, subtitle: nil)
+  def initialize(title:, subtitle: nil, tracer: nil)
     @title = title
     @subtitle = Identifier.new(subtitle).value
+    @tracer = tracer
     @attributes = {}
+  end
+
+  def run!(&block)
+    start_time = Time.now.strftime("%s%9N")
+    returned_value = nil
+    returned_value = if @tracer.present?
+                       @tracer.trace(self, block)
+                     else
+                       block.call(self)
+                     end
+    end_time = Time.now.strftime("%s%9N")
+  rescue StandardError => error
+    tell(StoryTeller::Error.new(error))
+    raise error
+  ensure
+    tell(StoryTeller::Timing.new(elapsed: end_time - start_time))
   end
 
   def to_hash
@@ -27,7 +44,7 @@ class StoryTeller::Chapter
       @attributes[key.to_sym] = value
     end
   end
-
+  
   class Identifier
     NIL_RESOURCE = "nil".freeze
     UNDEFINED_RESOURCE = "Undefined".freeze

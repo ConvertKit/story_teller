@@ -42,11 +42,17 @@ module StoryTeller
     def book
       book = Thread.current[:story_teller]
       if book.nil?
-        book = Book.new(dispatcher: dispatcher)
+        book = Book.new(dispatcher: dispatcher, tracer: tracer)
         Thread.current[:story_teller] = book
       end
 
       book
+    end
+
+    def tracer
+      @tracer ||= begin
+        StoryTeller::Config.tracer.new
+      end
     end
 
     def dispatcher
