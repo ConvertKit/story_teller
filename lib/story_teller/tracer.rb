@@ -1,18 +1,26 @@
+# Not a threadsafe class
+#
 class StoryTeller::Tracer
   def initialize(config)
     whitelist_paths = config.white_list_paths
     whitelist_paths.freeze
 
-    @trace_point = TracePoint.new(:call) do |point|
-      if included?(whitelist_paths, point.path)
-        StoryTeller.tell(StoryTeller::Trace.new(point))
+    @trace_point = TracePoint.new(:call) do |tracepoint|
+      if included?(whitelist_paths, tracepoint.path)
+        trace = StoryTeller::Trace.new(
+          tracepoint: tracepoint,
+          timepoint: @timepoint
+        )
+        StoryTeller.tell(trace)
       end
 
-      next false 
+      @timepoint = Time.now
     end
   end
 
   def trace(chapter, &block)
+    @timepoint = Time.now
+
     @trace_point.enable do
       block.call(chapter)
     end
