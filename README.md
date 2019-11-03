@@ -31,12 +31,10 @@ Chapters is a way to set some logging context that will execute inside a block. 
 
 ## Documentation
 
-StoryTeller is built around three concepts: `StoryTeller::Book`, `StoryTeller::Chapter` and `StoryTeller::Story`.
+StoryTeller is built around three concepts: `StoryTeller::Book`, `StoryTeller::Chapter` and `StoryTeller::Story`. Together they are the building blocks to create a clear context around your logs.
 
 ### Book
-A book is an object that is created lazily as soon as a call is made to `StoryTeller.tell` or `StoryTeller.chapter`. Even though these 2 are class methods, StoryTeller is thread safe because it always refers to a book for the current thread. If a thread doesn't have a book, it will create one.
-
-Each book has its own `UUID` that is going to be used by all stories and chapters so you can filter logs by request/jobs. That is particularly useful when you see something weird in the log and you want to follow step by step all the logs for a request.
+A book is lazily created for each of the thread your ruby problem runs. When a chapter or a story is created, it will gather information for the current Book and assign some context, like UUID to the logs.
 
 ### Chapter
 Chapter is what is created when invoking `StoryTeller.chapter(title:, subtitle:, &block)`. The chapter is a context that is created for all the logs that are going to occur inside the block that is passed. If you have a controller action that instantiates an object which, in turn, does a lot of things that you'd like to log, you should call `StoryTeller.chapter(title:, subtitle:, &block)` and do all the processing inside the block.
@@ -65,5 +63,4 @@ Also, if you `tell` a story inside a chapter block, your story will inherit the 
 StoryTeller logs any exceptions that occur inside a chapter block. When an exception occurs, it will log it using an internal `StoryTeller.tell` invocation then *reraise the error* so any exception handling above the block can do its thing (bugsnag, or maybe recovering to show a 404, etc).
 
 A `sev` fields mark the severity of a log. In normal logging event, that value will be set to `StoryTeller::Book::INFO_LEVEL`. However, when an exception bubbles to StoryTeller, the chapter will set the severity level of all stories to `StoryTeller::Book::ERROR_LEVEL`. It's often useful to filter by severity level so you can have an overview of all the logs that were involved for a given error.
-## Stories Agent
 
