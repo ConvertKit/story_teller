@@ -34,7 +34,7 @@ Chapters is a way to set some logging context that will execute inside a block. 
 StoryTeller is built around three concepts: `StoryTeller::Book`, `StoryTeller::Chapter` and `StoryTeller::Story`. Together they are the building blocks to create a clear context around your logs.
 
 ### Book
-A book is lazily created for each of the thread your ruby problem runs. When a chapter or a story is created, it will gather information for the current Book and assign some context, like UUID to the logs.
+A book is lazily created for each of the thread your ruby program runs. When a chapter or a story is created, it will gather information for the current Book and assign some context, like UUID to the logs.
 
 ### Chapter
 Chapter is what is created when invoking `StoryTeller.chapter(title:, subtitle:, &block)`. The chapter is a context that is created for all the logs that are going to occur inside the block that is passed. If you have a controller action that instantiates an object which, in turn, does a lot of things that you'd like to log, you should call `StoryTeller.chapter(title:, subtitle:, &block)` and do all the processing inside the block.
