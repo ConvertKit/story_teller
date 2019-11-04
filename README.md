@@ -20,7 +20,7 @@ class BooksController < ApplicationController
     end
   end
   around_action only: :purchase do |_, action|
-    StoryTeller.with(title: "Books::Purchase", subtitle: @integration) do
+    StoryTeller.chapter(title: "Books::Purchase", subtitle: @integration) do
       action.call
     end
   end
