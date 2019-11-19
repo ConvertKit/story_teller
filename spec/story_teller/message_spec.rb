@@ -1,4 +1,14 @@
 describe StoryTeller::Message do
+  context "#initialize" do
+    it "automatically converts template to UTF-8" do
+      template = "Danica\u{1f601}".force_encoding("US-ASCII")
+
+      message = StoryTeller::Message.new(template)
+      expect(message.valid?).to eq(true)
+      expect(message.send(:template).encoding.name).to eq("UTF-8")
+    end
+  end
+
   context "#valid?" do
     it "returns false if the template is empty" do
       expect(StoryTeller::Message.new(nil).valid?).to eq(false)
