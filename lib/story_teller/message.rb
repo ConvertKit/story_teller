@@ -2,6 +2,12 @@ class StoryTeller::Message
   NIL_STRING = "".freeze
 
   def initialize(template)
+    return if template.nil? || template.empty?
+
+    unless template.encoding.name == "UTF-8"
+      template = template.encode("UTF-8", invalid: :replace)
+    end
+
     @template = template
   end
 

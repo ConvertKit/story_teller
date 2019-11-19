@@ -33,10 +33,15 @@ class StoryTeller::Book
     unless story.is_a? StoryTeller::Story
       story = StoryTeller::Story.new(story)
     end
-    hash = story.to_hash
-    hash[:data] = hash.fetch(:data, {}).merge(current_chapter.to_hash)
 
-    @dispatcher.submit(hash.to_json)
+    begin
+      @dispatcher.submit(to_json(story))
+    rescue Encoding::UndefinedConversionError, Encoding::InvalidByteSequenceError => e
+      story = StoryTeller::Error.new(e)
+      @dispatcher.submit(to_json(story))
+    ensure
+      nil
+    end
   end
 
   def current_chapter
@@ -66,5 +71,11 @@ class StoryTeller::Book
 
   def finish!
     @chapters.pop
+  end
+
+  def to_json(story)
+    hash = story.to_hash
+    hash[:data] = hash.fetch(:data, {}).merge(current_chapter.to_hash)
+    hash.to_json
   end
 end

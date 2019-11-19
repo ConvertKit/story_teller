@@ -18,6 +18,11 @@ context StoryTeller::Book do
   end
 
   context "#tell" do
+    it "is a void method" do
+      expect(book.tell("yolo")).to eq(nil)
+      expect(book.tell("Danica\u{1f601}".force_encoding("US-ASCII"))).to eq(nil)
+    end
+
     it "merges chapter into data" do
       id = "1234"
       title = "Test"
@@ -41,6 +46,22 @@ context StoryTeller::Book do
       params.keys.each do |key|
         expect(event["data"][key.to_s]).to eq(params[key])
       end
+    end
+
+    it "gracefully handle a story with bad encoding" do
+      id = "1234"
+      title = "Test"
+      message = "Yolo!"
+      params = {
+        foo: "Danica\u{1f601}".force_encoding("US-ASCII"),
+        ahem: 1234
+      }
+
+      expect do
+        book.chapter title: title, subtitle: id do
+          book.tell(**params, message: message)
+        end
+      end.to_not raise_error
     end
   end
 
