@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class StoryTeller::Message
-  NIL_STRING = "".freeze
+  NIL_STRING = ""
 
   def initialize(template)
     return if template.nil? || template.empty?
