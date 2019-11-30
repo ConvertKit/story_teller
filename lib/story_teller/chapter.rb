@@ -1,10 +1,11 @@
 class StoryTeller::Chapter
-  attr_reader :title, :subtitle
+  attr_reader :title, :subtitle, :uncaught_error
 
   def initialize(title:, subtitle: nil)
     @title = title
     @subtitle = Identifier.new(subtitle).value
     @attributes = {}
+    @uncaught_error
   end
 
   def to_hash
@@ -26,6 +27,10 @@ class StoryTeller::Chapter
     hash.each_pair do |key, value|
       @attributes[key.to_sym] = value
     end
+  end
+
+  def uncaught_error=(error)
+    @uncaught_error = error
   end
 
   class Identifier
