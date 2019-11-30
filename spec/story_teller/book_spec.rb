@@ -15,6 +15,36 @@ context StoryTeller::Book do
 
       expect(book.current_chapter.title).to eq(StoryTeller::Book::UUID_CHAPTER_TITLE)
     end
+
+    it "only logs the error once even with multiple chapter embed" do
+      expect do
+        book.chapter title: "test", subtitle: 1234 do
+          book.chapter title: "Something else", subtitle: 123 do
+            raise "error"
+          end
+        end
+      end.to raise_error
+
+      expect(book.dispatcher.events.count).to eq(1)
+      expect(JSON.parse(book.dispatcher.events.first)["severity"]).to eq(StoryTeller::Story::ERROR_LEVEL)
+    end
+
+    it "logs different error that happen on each of the embed chapter" do
+      expect do
+        book.chapter title: "test", subtitle: 1234 do
+          begin
+            book.chapter title: "Something else", subtitle: 123 do
+              raise "error"
+            end
+          rescue
+            raise "error #2"
+          end
+        end
+      end.to raise_error
+
+      expect(book.dispatcher.events.count).to eq(2)
+      expect(JSON.parse(book.dispatcher.events.first)["severity"]).to eq(StoryTeller::Story::ERROR_LEVEL)
+    end
   end
 
   context "#tell" do

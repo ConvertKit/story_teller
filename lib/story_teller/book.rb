@@ -21,10 +21,12 @@ class StoryTeller::Book
       returned_value = nil
       returned_value = yield(chapter) if block_given?
     rescue StandardError => error
-      tell(StoryTeller::Error.new(error))
+      if error != chapter.uncaught_error
+        tell(StoryTeller::Error.new(error))
+      end
       raise error
     ensure
-      finish!
+      finish!(error: error)
       returned_value
     end
   end
@@ -69,8 +71,10 @@ class StoryTeller::Book
     chapter
   end
 
-  def finish!
-    @chapters.pop
+  def finish!(error: nil)
+    chapter = @chapters.pop
+    current_chapter.uncaught_error = error
+    chapter
   end
 
   def to_json(story)
