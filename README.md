@@ -1,4 +1,4 @@
-# StoryTeller
+# StoryTeller [![CircleCI](https://circleci.com/gh/ConvertKit/story_teller.svg?style=svg)](https://circleci.com/gh/ConvertKit/story_teller)
 
 It's just logs. If you want to know what your application is doing, StoryTeller helps understand what's happening in production. Using chapters and stories, you can build complex logs that will tell a story about what is going on in your production environment.
 
