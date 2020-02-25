@@ -10,7 +10,7 @@ module StoryTeller
     end
 
     initializer "story_teller.middleware" do |app|
-      app.config.middleware.insert_after "RequestStore::Middleware", StoryTeller::Middleware
+      app.config.middleware.insert_after Rails::Rack::Logger, StoryTeller::Middleware
     end
 
     initializer "story_teller.jobs" do
