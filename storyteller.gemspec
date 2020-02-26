@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "story_teller/version"
 
 Gem::Specification.new do |s|
-  s.name        = "StoryTeller"
+  s.name        = "story_teller"
   s.version     = StoryTeller::Version.to_s
   s.licenses    = ["MIT"]
   s.summary     = "Production logging for sane development"
