@@ -16,6 +16,13 @@ describe StoryTeller::Story do
   end
 
   context "to_hash(options = {})" do
+    it "will include a UUID for a story" do
+      message = "A message"
+      story = StoryTeller::Story.new(message: message)
+
+      expect(story.to_hash[:story_uuid]).not_to be_nil
+    end
+
     it "will include a timestamp with nanoseconds" do
       time = Time.now.utc
       story = StoryTeller::Story.new(message: "test")
