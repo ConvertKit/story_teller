@@ -24,6 +24,7 @@ class StoryTeller::Story
 
   def to_hash
     {
+      story_uuid: SecureRandom.uuid,
       severity: severity,
       timestamp: timestamp.strftime("%s%N"),
       message: attributes.message,
