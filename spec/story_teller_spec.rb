@@ -29,6 +29,32 @@ describe StoryTeller do
     end
   end
 
+  context ".level" do
+    it "raises an error if the level is not included" do
+      expect do
+        StoryTeller.level(-1).tell("Hello!")
+      end.to raise_error(StoryTeller::InvalidLevelError)
+    end
+
+    it "allows to call tell() and set the level accordingly" do
+      StoryTeller.level(StoryTeller::ANALYTIC_LEVEL).tell("Hello!")
+
+      dispatcher = StoryTeller.send(:book).dispatcher
+      event = JSON.parse(dispatcher.events.last)
+
+      expect(event["level"]).to eq(StoryTeller::ANALYTIC_LEVEL)
+    end
+
+    it "can include more than 1 level to a log" do
+      StoryTeller.level(StoryTeller::ANALYTIC_LEVEL, StoryTeller::ERROR_LEVEL).tell("Hello!")
+
+      dispatcher = StoryTeller.send(:book).dispatcher
+      event = JSON.parse(dispatcher.events.last)
+
+      expect(event["level"]).to eq(StoryTeller::ANALYTIC_LEVEL | StoryTeller::ERROR_LEVEL)
+    end
+  end
+
   it "will recover from any StandardError" do
     expect {
       StoryTeller.tell
