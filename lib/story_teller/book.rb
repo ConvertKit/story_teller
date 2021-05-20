@@ -46,6 +46,10 @@ class StoryTeller::Book
     end
   end
 
+  def level(levels)
+    StoryTeller::Level.new(levels)
+  end
+
   def current_chapter
     if empty?
       chapter = StoryTeller::Chapter.new(title: UUID_CHAPTER_TITLE, subtitle: uuid)

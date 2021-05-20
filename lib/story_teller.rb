@@ -8,9 +8,29 @@ module StoryTeller
   require "story_teller/attributes"
   require "story_teller/message"
 
+  STORY = 1 << 0
+  ANALYTIC = 1 << 1
+  ERROR =  1 << 2
+
+  LEVELS = [
+    ANALYTIC,
+    STORY,
+    ERROR
+  ]
+
+  class InvalidLevelError < StandardError; end
+
   class << self
     def configure!(config = {})
       StoryTeller::Config.configure!(config)
+    end
+
+    def level(*levels)
+      unless LEVELS.includes?(*levels)
+        raise InvalidLevelError.new(levels)
+      end
+
+      StoryTeller::Level.new(book, levels.reduce(&:|))
     end
 
     def tell(story = {})

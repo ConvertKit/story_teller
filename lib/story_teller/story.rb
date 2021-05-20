@@ -1,13 +1,10 @@
 class StoryTeller::Story
-  INFO_LEVEL = 3
-  ERROR_LEVEL = 4
-
   class StoryAttributeMissingError < StandardError; end
 
   attr_accessor :timestamp
   attr_reader :attributes, :type, :message, :severity
 
-  def initialize(attrs = {})
+  def initialize(attrs = {}, severity = StoryTeller::STORY)
     if attrs.is_a?(String)
       attrs = { message: attrs }
     end
@@ -18,7 +15,7 @@ class StoryTeller::Story
       raise StoryAttributeMissingError, "Invalid story. Requires a message"
     end
 
-    @severity = INFO_LEVEL
+    @severity = severity
     @timestamp = Time.now.utc
   end
 
