@@ -58,6 +58,32 @@ All the keys that you pass to StoryTeller are going to be indexed and searchable
 
 Also, if you `tell` a story inside a chapter block, your story will inherit the `event` and the `identifier` from the chapter so those will be indexed and searchable too.
 
+## Set a different level for a story
+
+Levels are a way to specify what kind of story you are writing. Currently, there are 3 levels and you can compose a story to include any of them:
+
+- StoryTeller::STORY_LEVEL
+- StoryTeller::ANALYTIC_LEVEL
+- StoryTeller::ERROR_LEVEL
+
+By default, every story are set to `StoryTeller::STORY_LEVEL`, except for when an uncaught exception happens inside a chapter. These special story use the `StoryTeller::ERROR_LEVEL`.
+
+Those levels are used in a bitwise field so it's possible to create a story that has any combination of levels.
+
+`StoryTeller.level()` is the API to use to set a different level on a given story. Here's an example of how to write a story that contains both the STORY_LEVEL and the ANALYTIC_LEVEL:
+
+```ruby
+StoryTeller.level(StoryTeller::STORY_LEVEL, StoryTeller::ANALYTIC_LEVEL).tell(
+  my_value: 100,
+  status: "active",
+  message: "This log will be set to both levels"
+)
+```
+
+By having different levels, it means you can filter those logs and be able to pipe those to different storage, depending on the level set on them. This is useful for when a chapter is used and different logs are created to generate different type of information.
+
+For instance, some might be there to make sure the app behaves properly, while other logs is an aggregation of what has happened so it can be graphed in an analytical tool.
+
 ## Exception handling
 
 StoryTeller logs any exceptions that occur inside a chapter block. When an exception occurs, it will log it using an internal `StoryTeller.tell` invocation then *reraise the error* so any exception handling above the block can do its thing (bugsnag, or maybe recovering to show a 404, etc).
