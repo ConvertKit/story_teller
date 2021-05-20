@@ -26,7 +26,7 @@ context StoryTeller::Book do
       end.to raise_error
 
       expect(book.dispatcher.events.count).to eq(1)
-      expect(JSON.parse(book.dispatcher.events.first)["severity"]).to eq(StoryTeller::Story::ERROR_LEVEL)
+      expect(JSON.parse(book.dispatcher.events.first)["level"]).to eq(StoryTeller::ERROR_LEVEL)
     end
 
     it "logs different error that happen on each of the embed chapter" do
@@ -43,7 +43,7 @@ context StoryTeller::Book do
       end.to raise_error
 
       expect(book.dispatcher.events.count).to eq(2)
-      expect(JSON.parse(book.dispatcher.events.first)["severity"]).to eq(StoryTeller::Story::ERROR_LEVEL)
+      expect(JSON.parse(book.dispatcher.events.first)["level"]).to eq(StoryTeller::ERROR_LEVEL)
     end
   end
 
@@ -175,6 +175,6 @@ context StoryTeller::Book do
 
     event = JSON.parse(book.dispatcher.events.last)
 
-    expect(event["severity"]).to eq(StoryTeller::Story::ERROR_LEVEL)
+    expect(event["level"]).to eq(StoryTeller::ERROR_LEVEL)
   end
 end

@@ -3,19 +3,20 @@ module StoryTeller
   require "story_teller/dispatchers"
   require "story_teller/book"
   require "story_teller/chapter"
+  require "story_teller/level"
   require "story_teller/story"
   require "story_teller/error"
   require "story_teller/attributes"
   require "story_teller/message"
 
-  STORY = 1 << 0
-  ANALYTIC = 1 << 1
-  ERROR =  1 << 2
+  STORY_LEVEL = 1 << 0
+  ANALYTIC_LEVEL = 1 << 1
+  ERROR_LEVEL =  1 << 2
 
   LEVELS = [
-    ANALYTIC,
-    STORY,
-    ERROR
+    ANALYTIC_LEVEL,
+    STORY_LEVEL,
+    ERROR_LEVEL
   ]
 
   class InvalidLevelError < StandardError; end
@@ -26,11 +27,13 @@ module StoryTeller
     end
 
     def level(*levels)
-      unless LEVELS.includes?(*levels)
-        raise InvalidLevelError.new(levels)
+      levels.each do |level|
+        unless LEVELS.include?(level)
+          raise InvalidLevelError.new(level)
+        end
       end
 
-      StoryTeller::Level.new(book, levels.reduce(&:|))
+      StoryTeller::Level.new(levels.reduce(&:|))
     end
 
     def tell(story = {})
