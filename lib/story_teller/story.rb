@@ -1,6 +1,4 @@
 class StoryTeller::Story
-  class StoryAttributeMissingError < StandardError; end
-
   attr_accessor :timestamp
   attr_reader :attributes, :type, :message, :level
 
@@ -10,10 +8,6 @@ class StoryTeller::Story
     end
 
     @attributes = StoryTeller::Attributes.new(attrs)
-
-    unless @attributes.valid?
-      raise StoryAttributeMissingError, "Invalid story. Requires a message"
-    end
 
     @level = level
     @timestamp = Time.now.utc

@@ -2,12 +2,6 @@ require "story_teller"
 
 describe StoryTeller::Story do
   context "initialize" do
-    it "will raise an error if no message was set for this story" do
-      expect {
-        StoryTeller::Story.new
-      }.to raise_error(StoryTeller::Story::StoryAttributeMissingError)
-    end
-
     it "handles a string as argument and takes it as a message" do
       message = "A message"
       story = StoryTeller::Story.new(message)

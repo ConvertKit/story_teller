@@ -4,10 +4,14 @@ class StoryTeller::Message
   NIL_STRING = ""
 
   def initialize(template)
-    return if template.nil? || template.empty?
+    if template.nil?
+      @template = ""
+      return
+    end
 
     unless template.encoding.name == "UTF-8"
-      template = template.encode("UTF-8", invalid: :replace)
+      @template = template.encode("UTF-8", invalid: :replace)
+      return
     end
 
     @template = template
@@ -21,10 +25,6 @@ class StoryTeller::Message
     template % attributes
   rescue StandardError => e
     e.message
-  end
-
-  def valid?
-    @template.present?
   end
 
   private
