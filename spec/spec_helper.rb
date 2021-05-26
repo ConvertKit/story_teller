@@ -2,7 +2,7 @@
 
 require "story_teller"
 require "byebug"
-require "rails"
+require "rails/all"
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

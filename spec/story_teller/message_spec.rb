@@ -6,6 +6,16 @@ describe StoryTeller::Message do
       message = StoryTeller::Message.new(template)
       expect(message.send(:template).encoding.name).to eq("UTF-8")
     end
+
+    it "can handle nil messages" do
+      message = StoryTeller::Message.new(nil)
+      expect(message.send(:template)).to eq("")
+    end
+
+    it "can handle non-string messages" do
+      message = StoryTeller::Message.new([])
+      expect(message.send(:template)).to eq("[]")
+    end
   end
 
   context "#render" do
