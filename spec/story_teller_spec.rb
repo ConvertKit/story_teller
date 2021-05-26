@@ -55,18 +55,6 @@ describe StoryTeller do
     end
   end
 
-  it "will recover from any StandardError" do
-    expect {
-      StoryTeller.tell
-    }.to raise_error(StandardError)
-
-    expect {
-      StoryTeller.tell(
-        message: "Test"
-      )
-    }.to_not raise_error(StandardError)
-  end
-
   it "will return the same UUID associated with the current book" do
     uuid = StoryTeller.uuid
 
