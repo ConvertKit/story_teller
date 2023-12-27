@@ -41,7 +41,7 @@ RSpec.describe StoryTeller::Dispatchers::Agent do
     allow(dispatcher).to receive(:log)
     payload = { test: "hello" }.to_json.to_s
 
-    result = dispatcher.submit(payload)
+    dispatcher.submit(payload)
 
     expect(dispatcher).to have_received(:log)
   end
