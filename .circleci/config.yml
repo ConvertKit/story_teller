@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Right bundler version
           command: |
-            gem install bundler:2.0.1
+            gem install bundler:2.2.33
       - run:
           name: install dependencies
           command: |
