@@ -38,12 +38,12 @@ RSpec.describe StoryTeller::Dispatchers::Agent do
     config[:dispatcher][:path] = "wrong_path"
     StoryTeller.configure!(logger: Logger.new("/dev/null"))
     dispatcher = StoryTeller::Dispatchers::Agent.new(config[:dispatcher])
-    allow(dispatcher).to receive(:log).with(any_args)
+    allow(dispatcher).to receive(:log)
     payload = { test: "hello" }.to_json.to_s
 
     result = dispatcher.submit(payload)
 
-    expect(dispatcher).to have_received(:log).with(any_args)
+    expect(dispatcher).to have_received(:log)
   end
 
   it "sends data through the socket" do
