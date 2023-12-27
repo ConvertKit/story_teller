@@ -8,7 +8,6 @@ group :development do
 end
 
 group :test do
-  gem "rack", ">= 2.2.4"
   gem "rails", "7.1.2"
   gem "rspec", "~> 3.8"
   gem "rspec_junit_formatter"

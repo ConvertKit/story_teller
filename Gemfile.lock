@@ -211,7 +211,6 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  rack (>= 2.2.4)
   rails (= 7.1.2)
   rspec (~> 3.8)
   rspec_junit_formatter
