@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.email       = "pier-olivier@convertkit.com"
   s.homepage    = "https://github.com/convertkit/story_teller"
   s.metadata    = { "source_code_uri" => "https://github.com/convertkit/story_teller" }
+  s.required_ruby_version = '>= 3.0.6'
 
   s.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(agent|test|spec|features)/})

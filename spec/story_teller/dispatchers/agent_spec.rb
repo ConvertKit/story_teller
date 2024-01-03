@@ -2,7 +2,7 @@ require "ostruct"
 require "story_teller"
 require "story_teller/dispatchers/agent"
 
-describe StoryTeller::Dispatchers::Agent do
+RSpec.describe StoryTeller::Dispatchers::Agent do
   let(:path) { "/tmp/story_teller_spec#{SecureRandom.hex(3)}" }
   let(:config) do
     {
@@ -36,12 +36,14 @@ describe StoryTeller::Dispatchers::Agent do
 
   it "logs the payload if can't connect to socket" do
     config[:dispatcher][:path] = "wrong_path"
-
+    StoryTeller.configure!(logger: Logger.new("/dev/null"))
     dispatcher = StoryTeller::Dispatchers::Agent.new(config[:dispatcher])
-
+    allow(dispatcher).to receive(:log)
     payload = { test: "hello" }.to_json.to_s
-    expect(dispatcher).to receive(:log).with(any_args)
+
     dispatcher.submit(payload)
+
+    expect(dispatcher).to have_received(:log)
   end
 
   it "sends data through the socket" do

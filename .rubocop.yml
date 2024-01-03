@@ -1,6 +1,6 @@
 AllCops:
-  TargetRubyVersion: 2.3.7
-  TargetRailsVersion: 4.2.11
+  TargetRubyVersion: 3.0.6
+  TargetRailsVersion: 7.2.1
 
 Metrics/BlockLength:
   Exclude:
