@@ -4,16 +4,17 @@ module StoryTeller
   module Version
     MAJOR = 0
     MINOR = 0
-    TINY = 4
-    BUILD = "alpha"
+    PATCH = 8
+    BUILD = ""
 
     def self.to_s
-      [
+      v = [
         MAJOR,
         MINOR,
-        TINY,
-        BUILD
-      ].compact.join(".")
+        PATCH
+      ]
+      v << BUILD unless BUILD.strip.empty?
+      v.compact.join(".")
     end
   end
 end
