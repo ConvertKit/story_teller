@@ -4,7 +4,7 @@ module StoryTeller
   module Version
     MAJOR = 0
     MINOR = 0
-    PATCH = 8
+    PATCH = 9
     BUILD = ""
 
     def self.to_s
