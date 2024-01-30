@@ -41,9 +41,9 @@ class StoryTeller::Book
     rescue Encoding::UndefinedConversionError, Encoding::InvalidByteSequenceError => e
       story = StoryTeller::Error.new(e)
       @dispatcher.submit(to_json(story))
-    ensure
-      nil
     end
+
+    nil
   end
 
   def current_chapter
