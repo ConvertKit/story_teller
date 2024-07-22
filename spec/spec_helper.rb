@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "story_teller"
-require "byebug"
 require "rails/all"
 
 RSpec.configure do |config|

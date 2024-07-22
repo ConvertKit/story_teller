@@ -4,12 +4,12 @@ source "https://rubygems.org"
 gemspec
 
 group :development do
-  gem "byebug"
+  gem "debug", "~> 1.9"
 end
 
 group :test do
-  gem "rails", "7.1.2"
-  gem "rspec", "~> 3.8"
-  gem "rspec_junit_formatter"
-  gem "sidekiq", "~> 5.2"
+  gem "rails", "7.1.3"
+  gem "rspec", "~> 3.13"
+  gem "rspec_junit_formatter", "~> 0.6"
+  gem "sidekiq", "~> 7.3"
 end

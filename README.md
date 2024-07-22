@@ -8,7 +8,7 @@ Essentially, StoryTeller logs are build around chapters and stories. Stories are
 
 At the root of everything, we're building key/value logging. And maybe an example would make more sense.
 
-```
+```rb
 class BooksController < ApplicationController
   def purchase
     @purchase = Purchase.create(@integration, params[:orders])
@@ -45,7 +45,7 @@ This way, StoryTeller will be able to assign all the logs to a given resource an
 ### Story
 Stories are basically a supercharged version of `Rails.logger.info`. You can pass a hash to it and also use that hash to construct a message.
 
-```
+```rb
 StoryTeller.tell(
   account_id: @account.id,
   status: @subscription.status,
@@ -89,4 +89,3 @@ For instance, some might be there to make sure the app behaves properly, while o
 StoryTeller logs any exceptions that occur inside a chapter block. When an exception occurs, it will log it using an internal `StoryTeller.tell` invocation then *reraise the error* so any exception handling above the block can do its thing (bugsnag, or maybe recovering to show a 404, etc).
 
 A `sev` fields mark the severity of a log. In normal logging event, that value will be set to `StoryTeller::Book::INFO_LEVEL`. However, when an exception bubbles to StoryTeller, the chapter will set the severity level of all stories to `StoryTeller::Book::ERROR_LEVEL`. It's often useful to filter by severity level so you can have an overview of all the logs that were involved for a given error.
-
