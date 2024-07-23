@@ -8,4 +8,8 @@ updates:
       timezone: "UTC"
     vendor: true
     reviewers:
-      - "ConvertKit/platform"
+      - "@awj"
+      - "@cainwatson"
+      - "@erinfox"
+      - "@JessSumner"
+      - "@mercedesb"
